@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recrop Example</title>
+    <script src="recrop.js"></script>
+    <script>
+        recrop("smaller-than-desired", 150, 150);
+        recrop("picture", 236, 123);
+        recrop("jpg", 197, 178);
+    </script>
+    <style>
+        body { text-align: center }
+        a { margin: 10px; }
+    </style>
+</head>
+<body>
+    <h3>Recropped to 150x150</h3>
+    <a href="http://placehold.it/100x100"><img src="http://placehold.it/100x100" class="smaller-than-desired"/></a>
+    <a href="http://placehold.it/640x100"><img src="http://placehold.it/640x100" class="smaller-than-desired"/></a>
+    <a href="http://placehold.it/100x640"><img src="http://placehold.it/100x640" class="smaller-than-desired"/></a>
+    <hr/>
+    <h3>Recropped to 236x123</h3>
+    <a href="http://placehold.it/640x640"><img src="http://placehold.it/640x640" class="picture"/></a>
+    <a href="http://placehold.it/350x500"><img src="http://placehold.it/350x500" class="picture"/></a>
+    <a href="http://placehold.it/534x480"><img src="http://placehold.it/640x334" class="picture"/></a>
+    <hr/>
+    <h3>Recropped to 197x178</h3>
+    <a href="http://placehold.it/768x1024"><img src="http://placehold.it/768x1024" class="jpg"/></a>
+    <a href="http://placehold.it/800x600"><img src="http://placehold.it/800x600" class="jpg"/></a>
+    <a href="http://placehold.it/1680x1050"><img src="http://placehold.it/1680x1050" class="jpg"/></a>
+    <a href="http://placehold.it/1680x1050"><img src="http://placehold.it/1680x1050" class="jpg"/></a>
+</body>
+</html>
