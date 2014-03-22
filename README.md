@@ -3,7 +3,13 @@ Recrop
 
 A simple javascript function to resize and crop images using HTML5 Canvas.
 
-Licensed under Apache License ([http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0))
+Released under Apache License ([http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0))
+
+## Demo ##
+
+Check ou the live demo here: [http://felladrin.github.io/recrop](http://felladrin.github.io/recrop)
+
+Just click on the images to see their real size.
 
 ## Usage ##
 
@@ -30,7 +36,3 @@ Also, you can call it as many times you want, on different classes:
         recrop("picture", 236, 123);
         recrop("jpg", 197, 178);
     </script>
-
-## Example ##
-
-Check out `index.html` file to see it in action.
