@@ -14,6 +14,12 @@
  */
 function recrop(className, width, height)
 {
+    var browserSupportsCanvas = window.CanvasRenderingContext2D;
+
+    // If canvas canvas are supported, we start by hidding the images from the page so they won't break the layout.
+    if (browserSupportsCanvas)
+        addCSS("." + className + "{display:none}");
+
     initialize(function()
     {
         // Collects all images from the page, matching the given class name.
@@ -21,35 +27,44 @@ function recrop(className, width, height)
 
         // Generates thumbnails for each image collected.
         for (var i = 0; i < images.length; i++)
-            recropThumbnail(images[i], width, height);
+        {
+            if (browserSupportsCanvas)
+            {
+                recropThumbnail(className, width, height, images[i]);
+            }
+            else
+            {
+                images[i].width = width;
+                images[i].height = height;
+            }
+        }
 
         // Removes all collected images.
-        while (images[0])
-            images[0].remove();
+        if (browserSupportsCanvas)
+        {
+            while (images[0])
+                images[0].remove();
+        }
+        else
+        {
+            console.log("Recrop Error: Canvas not supported.");
+        }
     });
 }
 
 /**
  * Resize then crop a ginve img element to generate a thumbnail.
- * @param element Image element to be resized and cropped.
+ * @param className Class name of the image to be thumbnailed.
  * @param width Desired width of thumbnail.
  * @param height Desired height of thumbnail.
+ * @param element Image element to be resized and cropped.
  */
-function recropThumbnail(element, width, height)
+function recropThumbnail(className, width, height, element)
 {
     // Checks if all parameters are defined.
     if(typeof element === 'undefined' || typeof width === 'undefined' || typeof height === 'undefined')
     {
         console.log("Recrop Error: Invalid Parameters.");
-        return;
-    }
-
-    // Checks if user's browser supports canvas. If not, recrop won't be executed.
-    if (!window.CanvasRenderingContext2D)
-    {
-        element.width = width;
-        element.height = height;
-        console.log("Recrop Error: Canvas not supported.");
         return;
     }
 
@@ -63,9 +78,6 @@ function recropThumbnail(element, width, height)
     // Creates a temporary image from where will get its width and height.
     var img = new Image();
     img.src = element.src;
-
-    // Removes current image, so user won't see it stretched while canvas is being generated.
-    element.src = '';
 
     // Initializes the canvas that will hold the resized image.
     var canvasResized = document.createElement("canvas");
@@ -116,6 +128,7 @@ function recropThumbnail(element, width, height)
     // Sets canvas size based on desired size.
     canvasCropped.width = width;
     canvasCropped.height = height;
+    canvasCropped.className = element.className.replace(className,'');
 
     // Draws the cropped image on the canvas.
     canvasCroppedContext.drawImage(canvasResized, offsetX, offsetY);
@@ -134,4 +147,21 @@ function initialize(func)
         window.addEventListener('load', func, false);
     else if (window.attachEvent)
         window.attachEvent('onload', func);
+}
+
+/**
+ * Adds css code to the page.
+ * @param cssCode
+ */
+function addCSS(cssCode)
+{
+    var styleElement = document.createElement("style");
+    styleElement.type = "text/css";
+
+    if (styleElement.styleSheet)
+        styleElement.styleSheet.cssText = cssCode;
+    else
+        styleElement.appendChild(document.createTextNode(cssCode));
+
+    document.getElementsByTagName("head")[0].appendChild(styleElement);
 }
